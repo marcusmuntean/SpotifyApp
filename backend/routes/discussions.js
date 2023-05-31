@@ -8,7 +8,7 @@ var cors = require('cors');
 router.use(cors());
 
 const db = require("./firebase");
-const {collection, getDocs, addDoc, doc, getDoc} = require("firebase/firestore");
+const {collection, getDocs, addDoc, doc, getDoc, updateDoc} = require("firebase/firestore");
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -22,6 +22,22 @@ router.get('/', async function(req, res, next) {
             boards.push({id: board.id, ... board.data()});
         });
         res.json({boards});
+        
+    } catch (error) {
+        console.error('Error retrieving discussion boards: ', error);
+        res.status(500).json({error: 'Failed to retrieve discussion boards.'});
+    }
+});
+
+router.get('/:boardId/', async function(req, res, next) {
+    try {
+        const { boardId } = req.params;
+        const modifiedBoardId = boardId.substring(1);
+        console.log('got into get');
+        const discRef = doc(db, "DiscussionBoards", modifiedBoardId);
+        const snapshot = await getDoc(discRef);
+
+        res.json({name: snapshot.data().name});
         
     } catch (error) {
         console.error('Error retrieving discussion boards: ', error);
@@ -59,8 +75,53 @@ router.get('/:boardId/messages', async function(req, res, next) {
     }
   });
 
-router.post('/discussions', async function(req, res, next) {
+router.post('/', async function(req, res, next) {
+    try {
+        const {name, content} = req.body;
+
+        if( name === '' || content === '') {
+            throw new Error('Post title and initial message are BOTH required.');
+        }
+
+        const boardRef = collection(db, "DiscussionBoards");
+        const newBoardRef = await addDoc(boardRef, {name});
+
+        const messagesRef = collection(newBoardRef, "Messages");
+        await addDoc(messagesRef, {content, likes: 0});
+
+        res.status(201).json({id: newBoardRef.id});
+    } catch (error) {
+        console.error('Error adding post: ', error);
+        res.status(500).json({error: 'Failed to add post.'});
+    }
     
 })
+
+
+router.put('/:boardId/messages/:messageId/like', async function(req, res, next) {
+    try {
+      const { boardId, messageId } = req.params;
+      const modifiedBoardId = boardId.substring(1);
+      const modifiedMessageId = messageId.substring(1);
+  
+      const boardRef = doc(db, 'DiscussionBoards', modifiedBoardId);
+      const messageRef = doc(boardRef, 'Messages', modifiedMessageId);
+      const messageSnapshot = await getDoc(messageRef);
+  
+      if (!messageSnapshot.exists()) {
+        return res.status(404).json({ error: 'Message not found.' });
+      }
+  
+      const currentLikes = messageSnapshot.data().likes || 0;
+      const newLikes = currentLikes + 1;
+  
+      await updateDoc(messageRef, { likes: newLikes });
+  
+      res.status(200).json({ likes: newLikes });
+    } catch (error) {
+      console.error('Error updating likes: ', error);
+      res.status(500).json({ error: 'Failed to update likes.' });
+    }
+  });
 
 module.exports = router;
