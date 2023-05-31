@@ -9,14 +9,20 @@ import {
   MenuItem,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Statistics(props) {
   const [filterLength, setFilterLength] = useState("All Time");
-  const [topSongData, setTopSongData] = useState({});
+  const [topSongData, setTopSongData] = useState(null);
+
+  useEffect(() => {
+    getSongData();
+    // eslint-disable-next-line
+  }, []);
 
   const handleChange = (event) => {
+    console.log(filterLength);
     setFilterLength(event.target.value);
     getSongData();
   };
@@ -24,8 +30,22 @@ export default function Statistics(props) {
   const getSongData = () => {
     // let url = "http://localhost:9000/statistics/" + props.token;
     // axios.get(url).then((result) => setTopSongData(result));
+
+    let term;
+
+    if (filterLength === "All Time") {
+      term = "long_term";
+    } else if (filterLength === "Last 6 Months") {
+      term = "medium_term";
+    } else if (filterLength === "Last Month") {
+      term = "short_term";
+    }
+
+    let url = "https://api.spotify.com/v1/me/top/tracks?time_range=" + term;
+    console.log(url);
+
     axios
-      .get("https://api.spotify.com/v1/me/top/tracks", {
+      .get(url, {
         headers: {
           Authorization: `Bearer ${props.token}`,
         },
@@ -68,7 +88,7 @@ export default function Statistics(props) {
             onChange={handleChange}
           >
             <MenuItem value={"Last Month"}>Last Month</MenuItem>
-            <MenuItem value={"Last Year"}>Last Year</MenuItem>
+            <MenuItem value={"Last 6 Months"}>Last 6 Months</MenuItem>
             <MenuItem value={"All Time"}>All Time</MenuItem>
           </Select>
         </FormControl>
@@ -88,8 +108,16 @@ export default function Statistics(props) {
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {filterLength}
               </Typography>
-              <SongCard />
-              <SongCard />
+              {topSongData &&
+                topSongData.map((obj, index) => {
+                  return (
+                    <SongCard
+                      song={obj.name}
+                      artist={obj.artists[0].name}
+                      rank={index + 1}
+                    />
+                  );
+                })}
             </CardContent>
           </Card>
         </Box>
@@ -106,22 +134,21 @@ export default function Statistics(props) {
           </Card>
         </Box>
       </div>
-      {console.log(topSongData)}
     </>
   );
 }
 
-function SongCard() {
+function SongCard(props) {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Typography variant="h4">1</Typography>
+        <Typography variant="h4">{props.rank}</Typography>
         <Box marginLeft={"34%"} marginBottom={"1.2%"}>
           <Divider width={"45%"} />
         </Box>
-        <Typography variant="h5">Power Trip</Typography>
+        <Typography variant="h5">{props.song}</Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          J. Cole
+          {props.artist}
         </Typography>
       </CardContent>
     </Card>
