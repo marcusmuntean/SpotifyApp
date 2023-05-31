@@ -4,7 +4,9 @@ export default function Statistics() {
   return (
     <>
       <h1>Statistics</h1>
-      <p>TBD</p>
+      <Typography color="#827b7a" marginTop={"-15px"} marginBottom={"15px"}>
+        Username
+      </Typography>
       <div
         style={{
           display: "flex",
