@@ -1,9 +1,12 @@
 
 import {useEffect, useState} from 'react';
+import { Link, Route, Routes, useParams, useNavigate } from 'react-router-dom';
+
 
 function Discussion() {
 
     const[boards, setBoards] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:9000/discussions')
@@ -26,8 +29,10 @@ function Discussion() {
             <p>Discussion Boards</p>
             <button onClick={handleNewDisc}>Create New Discussion</button> <br></br>
             {boards.map((board) => (
-                <button key={board.id}>{board.name}</button>
-            ))}
+        <Link to={`/board/${board.id}`} key={board.id}>
+          <button>{board.name}</button>
+        </Link>
+      ))}
         </div>
 
 
