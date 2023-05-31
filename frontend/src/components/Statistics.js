@@ -10,13 +10,29 @@ import {
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { React, useState } from "react";
+import axios from "axios";
 
-export default function Statistics() {
+export default function Statistics(props) {
   const [filterLength, setFilterLength] = useState("All Time");
+  const [topSongData, setTopSongData] = useState({});
 
   const handleChange = (event) => {
     setFilterLength(event.target.value);
+    getSongData();
   };
+
+  const getSongData = () => {
+    // let url = "http://localhost:9000/statistics/" + props.token;
+    // axios.get(url).then((result) => setTopSongData(result));
+    axios
+      .get("https://api.spotify.com/v1/me/top/tracks", {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      })
+      .then((result) => setTopSongData(result.data.items));
+  };
+
   return (
     <>
       <Typography
@@ -57,7 +73,6 @@ export default function Statistics() {
           </Select>
         </FormControl>
       </Box>
-      {console.log(filterLength)}
       <div
         style={{
           display: "flex",
@@ -91,6 +106,7 @@ export default function Statistics() {
           </Card>
         </Box>
       </div>
+      {console.log(topSongData)}
     </>
   );
 }
