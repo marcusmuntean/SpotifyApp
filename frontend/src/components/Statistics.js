@@ -155,18 +155,15 @@ function SongCard(props) {
   );
 }
 
-function ArtistCard() {
+function ArtistCard(props) {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Typography variant="h4">1</Typography>
+        <Typography variant="h4">{props.rank}</Typography>
         <Box marginLeft={"34%"} marginBottom={"1.2%"}>
           <Divider width={"45%"} />
         </Box>
-        <Typography variant="h5">Jermaine Cole</Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Hrs?
-        </Typography>
+        <Typography variant="h5">{props.artist}</Typography>
       </CardContent>
     </Card>
   );
