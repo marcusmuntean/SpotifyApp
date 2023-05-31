@@ -21,10 +21,13 @@ export default function Statistics(props) {
     // eslint-disable-next-line
   }, []);
 
-  const handleChange = (event) => {
-    console.log(filterLength);
-    setFilterLength(event.target.value);
+  useEffect(() => {
     getSongData();
+    // eslint-disable-next-line
+  }, [filterLength]);
+
+  const handleChange = (event) => {
+    setFilterLength(event.target.value);
   };
 
   const getSongData = () => {
