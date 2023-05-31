@@ -1,13 +1,63 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import Divider from "@mui/material/Divider";
+import { React, useState } from "react";
 
 export default function Statistics() {
+  const [filterLength, setFilterLength] = useState("All Time");
+
+  const handleChange = (event) => {
+    setFilterLength(event.target.value);
+  };
   return (
     <>
-      <h1>Statistics</h1>
-      <Typography color="#827b7a" marginTop={"-15px"} marginBottom={"15px"}>
-        Username
+      <Typography
+        variant="h3"
+        sx={{ fontWeight: "bold", marginBottom: "0.7%", marginTop: "0.5%" }}
+      >
+        Statistics
       </Typography>
+      <Typography
+        fontSize={"26px"}
+        color="#827b7a"
+        marginTop={"-15px"}
+        marginBottom={"15px"}
+      >
+        USERNAME
+      </Typography>
+      <Box
+        sx={{
+          width: "6%",
+          minWidth: "150px",
+          marginLeft: "5%",
+          marginTop: "-1%",
+          marginBottom: "1%",
+        }}
+      >
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={filterLength}
+            label="Age"
+            onChange={handleChange}
+          >
+            <MenuItem value={"Last Month"}>Last Month</MenuItem>
+            <MenuItem value={"Last Year"}>Last Year</MenuItem>
+            <MenuItem value={"All Time"}>All Time</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      {console.log(filterLength)}
       <div
         style={{
           display: "flex",
@@ -21,7 +71,7 @@ export default function Statistics() {
             <CardContent>
               <Typography variant="h5">Top Songs</Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Last week/month/year
+                {filterLength}
               </Typography>
               <SongCard />
               <SongCard />
@@ -33,7 +83,7 @@ export default function Statistics() {
             <CardContent>
               <Typography variant="h5">Top Artists</Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                Last week/month/year
+                {filterLength}
               </Typography>
               <ArtistCard />
               <ArtistCard />
