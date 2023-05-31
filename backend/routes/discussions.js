@@ -75,6 +75,7 @@ router.get('/:boardId/messages', async function(req, res, next) {
     }
   });
 
+  //adds a new discussion board
 router.post('/', async function(req, res, next) {
     try {
         const {name, content} = req.body;
@@ -96,6 +97,33 @@ router.post('/', async function(req, res, next) {
     }
     
 })
+
+//adds a new message to an existing discussion board
+router.post('/:boardId/messages', async function(req, res, next) {
+    try {
+        console.log('got into here');
+      const { boardId } = req.params;
+      const { content } = req.body;
+  
+      if (!content) {
+        throw new Error('Message content is required.');
+      }
+  
+      const modifiedBoardId = boardId.substring(1);
+      const boardRef = doc(db, 'DiscussionBoards', modifiedBoardId);
+  
+      const messageRef = await addDoc(collection(boardRef, 'Messages'), {
+        content,
+        likes: 0
+      });
+  
+      res.status(201).json({ id: messageRef.id });
+    } catch (error) {
+      console.error('Error adding message: ', error);
+      res.status(500).json({ error: 'Failed to add message.' });
+    }
+  });
+  
 
 
 router.put('/:boardId/messages/:messageId/like', async function(req, res, next) {

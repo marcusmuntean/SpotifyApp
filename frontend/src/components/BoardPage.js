@@ -5,6 +5,8 @@ function BoardPage() {
     const { boardId } = useParams();
     const [messages, setMessages] = useState([]);
     const [boardName, setBoardName] = useState('');
+    const [comment, setComment] = useState('');
+    const [showInput, setShowInput] = useState(false);
   
     //this is to display the messages
     useEffect(() => {
@@ -41,6 +43,33 @@ function BoardPage() {
           })
           .catch((error) => console.error('Error liking message: ', error));
       };
+
+      //NOT TESTED
+      const handleConfirm = () => {
+        console.log({comment});
+        fetch(`http://localhost:9000/discussions/:${boardId}/messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: comment}),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setComment('');
+            console.log('done');
+          })
+          
+          .catch((error) => console.error('Error creating new discussion: ', error));
+          
+      };
+
+      const handleNewComment = () => {
+        setShowInput(true);
+      };
+
+      const handleCommentChange = (e) => {
+        setComment(e.target.value);
+      };
+      //END NOT TESTED
   
     return (
       <div>
@@ -55,6 +84,14 @@ function BoardPage() {
           </p>
           </div>
         ))}
+        {showInput ? (
+        <div>
+          <input type="text" value={comment} onChange={handleCommentChange} placeholder="Enter title" />
+          <button onClick={handleConfirm}>Confirm</button>
+        </div>
+      ) : (
+        <button onClick={handleNewComment}>Comment</button>
+      )}
       </div>
     );
   }
