@@ -6,7 +6,8 @@ function BoardPage() {
     const [messages, setMessages] = useState([]);
   
     useEffect(() => {
-      fetch(`http://localhost:9000/discussions/${boardId}/messages`)
+        console.log({boardId});
+      fetch(`http://localhost:9000/discussions/:${boardId}/messages`)
         .then((response) => response.json())
         .then((data) => setMessages(data.messages))
         .catch((error) => console.error('Error retrieving messages: ', error));
@@ -17,8 +18,8 @@ function BoardPage() {
         <h2>Discussion Board {boardId}</h2>
         {messages.map((message) => (
           <div key={message.id}>
-            <p>{message.text}</p>
-            <p>Posted by: {message.author}</p>
+            <p>{message.content}</p>
+            <p>Posted by: {message.userID} on: {message.time}</p>
           </div>
         ))}
       </div>
