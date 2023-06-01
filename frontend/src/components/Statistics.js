@@ -16,10 +16,13 @@ export default function Statistics(props) {
   const [filterLength, setFilterLength] = useState("All Time");
   const [topSongData, setTopSongData] = useState(null);
   const [topArtistData, setTopArtistData] = useState(null);
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     getSongData();
     getArtistData();
+    getUsername();
     // eslint-disable-next-line
   }, []);
 
@@ -59,9 +62,6 @@ export default function Statistics(props) {
   };
 
   const getArtistData = () => {
-    // let url = "http://localhost:9000/statistics/" + props.token;
-    // axios.get(url).then((result) => setTopSongData(result));
-
     let term;
 
     if (filterLength === "All Time") {
@@ -83,6 +83,21 @@ export default function Statistics(props) {
       .then((result) => setTopArtistData(result.data.items));
   };
 
+  const getUsername = () => {
+    let url = "https://api.spotify.com/v1/me";
+
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      })
+      .then((result) => {
+        setUsername(result.id);
+        setDisplayName(result.data.display_name);
+      });
+  };
+
   return (
     <>
       <Typography
@@ -97,7 +112,7 @@ export default function Statistics(props) {
         marginTop={"-15px"}
         marginBottom={"15px"}
       >
-        USERNAME
+        {displayName}
       </Typography>
       <Box
         sx={{
@@ -131,11 +146,7 @@ export default function Statistics(props) {
           alignItems: "center",
         }}
       >
-        <Box
-          width={"42.5%"}
-          marginLeft={"5%"}
-          sx={{ border: 5, borderColor: "#1DB954" }}
-        >
+        <Box width={"42.5%"} marginLeft={"5%"}>
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h5">Top Songs</Typography>
@@ -155,11 +166,7 @@ export default function Statistics(props) {
             </CardContent>
           </Card>
         </Box>
-        <Box
-          width={"42.5%"}
-          marginRight={"5%"}
-          sx={{ border: 5, borderColor: "#1DB954" }}
-        >
+        <Box width={"42.5%"} marginRight={"5%"}>
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h5">Top Artists</Typography>
