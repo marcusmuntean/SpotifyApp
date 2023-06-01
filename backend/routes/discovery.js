@@ -6,7 +6,7 @@ const { getDocs, collection } = require("firebase/firestore");
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   allDocData = [];
-  const userDocs = await getDocs(collection(db, "Users"));
+  const userDocs = await getDocs(collection(db, "UsersTesting"));
   userDocs.forEach((userDoc) => {
     allDocData.push(userDoc.data());
   })
