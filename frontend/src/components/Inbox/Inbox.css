@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap');
+
+* {
+    margin: 0;
+    font-family: Poppins, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    /* overflow: hidden; */
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #191414;
+    color: #fff;
+    height: 10vh;
+}
+
+main {
+    display: flex;
+}
+
+/* CSS */
+button {
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  /* min-height: 3rem; */
+  /* padding: calc(.875rem - 1px) calc(1.5rem - 1px); */
+  height: 100%;
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+button:hover,
+button:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(255, 255, 255, 1);
+  background-color: #1db954;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+.chats {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25%;
+    height: 90vh;
+    background-color: #fff;
+    border-right: 3px solid black;
+    padding: 16px;
+}
+
+#add-chat-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chats div button {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 16px;
+}
+
+.chats input {
+    width: 100%;
+    height: 70%;
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.chats #add-chat-div button {
+    width: 100%;
+    height: 25%;
+}
+
+#add-message-div {
+    /* margin-bottom: 16px; */
+}
+
+#add-message-div input {
+    height: 100%;
+    width: 70%;
+}
+
+#add-message-div button {
+    height: 100%;
+    width: 25%;
+    margin-left: 5%;
+    padding: 16px
+}
+
+.current-chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 75%;
+    padding: 16px;
+    height: 90vh;
+    background-color: #fff;
+    font-size: 24px;
+}
+
+.current-chat input {
+    font-size: 24px;
+}
+
+.current-chat button {
+    font-size: 24px;
+}
+
+.current-chat div div {
+    padding-bottom: 16px;
+}
+
+#messages {
+    overflow: scroll;
+    height: 100%;
+}
