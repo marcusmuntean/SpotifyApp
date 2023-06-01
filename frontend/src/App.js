@@ -1,27 +1,33 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import './App.css';
-import Home from './components/Home';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Profile from './components/Profile';
+import React from "react";
+import Navbar from "./components/Navbar";
+import "./App.css";
+import Home from "./components/Home";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Profile from "./components/Profile";
+import UserContext from "./components/UserContext";
+import { useState, useContext, createContext } from "react";
 function App() {
-  return (
-    <>
-      <Router>
-        <Navbar />
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
-        </Routes>
-        {/* <Switch>
+	const [globalUser, setGlobalUser] = useState("Initial placeholder name");
+
+	return (
+		<>
+			<UserContext.Provider value={{ globalUser, setGlobalUser }}>
+				<Router>
+					<Navbar />
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/profile" element={<Profile />} />
+					</Routes>
+					{/* <Switch>
           <Route path='/' exact component={Home} />
           <Route path='/services' component={Services} />
           <Route path='/products' component={Products} />
           <Route path='/sign-up' component={SignUp} />
         </Switch> */}
-      </Router>
-    </>
-  );
+				</Router>
+			</UserContext.Provider>
+		</>
+	);
 }
 
 export default App;
@@ -40,14 +46,11 @@ export default App;
 //     const [searchKey, setSearchKey] = useState("")
 //     const [artists, setArtists] = useState([])
 
-  
-
 //     useEffect(() => {
 //         const hash = window.location.hash
 //         let token = window.localStorage.getItem("token")
 
 //         // getToken()
-
 
 //         if (!token && hash) {
 //             token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
@@ -122,7 +125,6 @@ export default App;
 // import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 // import CssBaseline from "@mui/material/CssBaseline";
 // import Button from "@mui/material/Button";
-
 
 // function App() {
 //   return (
