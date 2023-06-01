@@ -15,14 +15,17 @@ import axios from "axios";
 export default function Statistics(props) {
   const [filterLength, setFilterLength] = useState("All Time");
   const [topSongData, setTopSongData] = useState(null);
+  const [topArtistData, setTopArtistData] = useState(null);
 
   useEffect(() => {
     getSongData();
+    getArtistData();
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     getSongData();
+    getArtistData();
     // eslint-disable-next-line
   }, [filterLength]);
 
@@ -45,7 +48,6 @@ export default function Statistics(props) {
     }
 
     let url = "https://api.spotify.com/v1/me/top/tracks?time_range=" + term;
-    console.log(url);
 
     axios
       .get(url, {
@@ -54,6 +56,31 @@ export default function Statistics(props) {
         },
       })
       .then((result) => setTopSongData(result.data.items));
+  };
+
+  const getArtistData = () => {
+    // let url = "http://localhost:9000/statistics/" + props.token;
+    // axios.get(url).then((result) => setTopSongData(result));
+
+    let term;
+
+    if (filterLength === "All Time") {
+      term = "long_term";
+    } else if (filterLength === "Last 6 Months") {
+      term = "medium_term";
+    } else if (filterLength === "Last Month") {
+      term = "short_term";
+    }
+
+    let url = "https://api.spotify.com/v1/me/top/artists?time_range=" + term;
+
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      })
+      .then((result) => setTopArtistData(result.data.items));
   };
 
   return (
@@ -131,8 +158,10 @@ export default function Statistics(props) {
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {filterLength}
               </Typography>
-              <ArtistCard />
-              <ArtistCard />
+              {topArtistData &&
+                topArtistData.map((obj, index) => {
+                  return <ArtistCard artist={obj.name} rank={index + 1} />;
+                })}
             </CardContent>
           </Card>
         </Box>
