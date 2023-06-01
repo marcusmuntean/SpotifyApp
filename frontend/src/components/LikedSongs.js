@@ -40,7 +40,6 @@ export default function LikedSongs(props) {
       "http://localhost:9000/statistics/likes/" + offset + "/" + props.token;
 
     axios.get(url).then((result) => {
-      console.log(result);
       let test = likedSongs;
       if (result.data.items.length === 0) {
         setFinishedGetting(true);
