@@ -131,7 +131,11 @@ export default function Statistics(props) {
           alignItems: "center",
         }}
       >
-        <Box width={"42.5%"} marginLeft={"5%"}>
+        <Box
+          width={"42.5%"}
+          marginLeft={"5%"}
+          sx={{ border: 5, borderColor: "#1DB954" }}
+        >
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h5">Top Songs</Typography>
@@ -151,7 +155,11 @@ export default function Statistics(props) {
             </CardContent>
           </Card>
         </Box>
-        <Box width={"42.5%"} marginRight={"5%"}>
+        <Box
+          width={"42.5%"}
+          marginRight={"5%"}
+          sx={{ border: 5, borderColor: "#1DB954" }}
+        >
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h5">Top Artists</Typography>
@@ -172,7 +180,7 @@ export default function Statistics(props) {
 
 function SongCard(props) {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ height: "150px" }}>
       <CardContent>
         <Typography variant="h4">{props.rank}</Typography>
         <Box marginLeft={"34%"} marginBottom={"1.2%"}>
@@ -189,7 +197,7 @@ function SongCard(props) {
 
 function ArtistCard(props) {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ height: "150px" }}>
       <CardContent>
         <Typography variant="h4">{props.rank}</Typography>
         <Box marginLeft={"34%"} marginBottom={"1.2%"}>
