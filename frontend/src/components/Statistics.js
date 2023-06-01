@@ -64,15 +64,9 @@ export default function Statistics(props) {
     }
 
     let url =
-      "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=" + term;
+      "http://localhost:9000/statistics/artists/" + term + "/" + props.token;
 
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      })
-      .then((result) => setTopArtistData(result.data.items));
+    axios.get(url).then((result) => setTopArtistData(result.data.items));
   };
 
   const getUsername = () => {
