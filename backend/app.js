@@ -42,9 +42,6 @@ app.use("/users", usersRouter);
 app.use("/profiles", profilesRouter);
 app.use("/statistics", statisticsRouter);
 app.use("/discussions", discussionsRouter);
-app.use("/profiles", profilesRouter);
-app.use("/statistics", statisticsRouter);
-app.use("/discussions", discussionsRouter);
 app.use("/inboxes", inboxesRouter);
 app.use("/discovery", discoveryRouter);
 
