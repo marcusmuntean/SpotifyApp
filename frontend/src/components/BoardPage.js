@@ -7,6 +7,7 @@ import {
 	Button,
 	TextField,
 	Box,
+	CardActions,
 } from "@mui/material";
 import axios from "axios";
 import UserContext from "./UserContext";
@@ -126,19 +127,39 @@ function BoardPage() {
 
 	return (
 		<div>
-			<div style={{ textAlign: "left", marginLeft: "16px", marginTop: "16px" }}>
-				<p>{testVar}</p>
+			<div
+				style={{
+					textAlign: "center",
+					backgroundColor: "#000",
+					padding: "16px",
+				}}
+			>
+				<Typography variant="h2" sx={{ color: "#FFF" }}>
+					{boardName}
+				</Typography>
+			</div>
+
+			<div
+				style={{
+					textAlign: "left",
+					marginLeft: "16px",
+					marginTop: "16px",
+					marginBottom: "16px",
+				}}
+			>
 				<Button
 					variant="contained"
 					onClick={() => navigate("/discussion")}
-					sx={{ width: "7%", marginLeft: "auto", marginRight: "auto" }}
+					sx={{
+						width: "7%",
+						marginLeft: "auto",
+						marginRight: "auto",
+						backgroundColor: "#1DB954",
+						color: "#FFF",
+					}}
 				>
 					Back
 				</Button>
-			</div>
-
-			<div style={{ textAlign: "center" }}>
-				<h2>{boardName}</h2>
 			</div>
 
 			<div
@@ -153,23 +174,34 @@ function BoardPage() {
 			>
 				{messages &&
 					messages.map((message) => (
-						<Card key={message.id} sx={{ minWidth: 275, maxWidth: 275 }}>
+						<Card
+							key={message.id}
+							sx={{
+								width: "calc(100% - 60px)", // Subtract 60px for the left and right margins
+								marginLeft: "30px",
+								marginRight: "30px",
+								borderColor: "#1DB954",
+								color: "#000",
+							}}
+						>
 							<CardContent>
 								<Typography variant="body1">{message.content}</Typography>
 								<Typography variant="body2" color="textSecondary">
 									Posted by: {message.userID} on: {message.time}
 								</Typography>
-
+							</CardContent>
+							<CardActions sx={{ justifyContent: "right" }}>
 								<Button
 									variant={
 										likedButtons.includes(message.id) ? "contained" : "outlined"
 									}
 									disabled={likedMessages.includes(message.id)}
 									onClick={() => handleLike(message.id)}
+									sx={{ borderColor: "#1DB954", color: "#000" }}
 								>
 									Likes: {message.likes}
 								</Button>
-							</CardContent>
+							</CardActions>
 						</Card>
 					))}
 			</div>
@@ -196,7 +228,7 @@ function BoardPage() {
 						<Button
 							variant="contained"
 							onClick={handleConfirm}
-							sx={{ width: "25%" }}
+							sx={{ width: "25%", backgroundColor: "#1DB954", color: "#FFF" }}
 						>
 							Confirm
 						</Button>
@@ -215,7 +247,13 @@ function BoardPage() {
 					<Button
 						variant="contained"
 						onClick={handleNewComment}
-						sx={{ width: "15%", marginLeft: "auto", marginRight: "auto" }}
+						sx={{
+							width: "15%",
+							marginLeft: "auto",
+							marginRight: "auto",
+							backgroundColor: "#1DB954",
+							color: "#FFF",
+						}}
 					>
 						Add a Comment
 					</Button>
