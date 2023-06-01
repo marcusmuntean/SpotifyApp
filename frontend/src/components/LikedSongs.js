@@ -16,17 +16,14 @@ export default function LikedSongs(props) {
   }, []);
 
   const getLikedSongs = () => {
-    let url = "https://api.spotify.com/v1/me/tracks?limit=50";
+    let url = "http://localhost:9000/statistics/likes/" + props.token;
 
     axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      })
+      .get(url)
       .then((result) => {
-        setLikedSongs(result.data.items);
-      });
+        setLikedSongs(result.data);
+      })
+      .catch((err) => console.log(err));
   };
 
   const getUsername = () => {
@@ -45,26 +42,22 @@ export default function LikedSongs(props) {
 
   const loadMoreSongs = () => {
     offset += 50;
-    let url = "https://api.spotify.com/v1/me/tracks?limit=50&offset=" + offset;
+    let url =
+      "http://localhost:9000/statistics/likes/" + offset + "/" + props.token;
 
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      })
-      .then((result) => {
-        let test = likedSongs;
-        if (result.data.items.length === 0) {
-          setFinishedGetting(true);
-        } else {
-          setFinishedGetting(false);
-        }
-        for (let i = 0; i < result.data.items.length; i++) {
-          test[i + offset] = result.data.items[i];
-        }
-        setLikedSongs(test);
-      });
+    axios.get(url).then((result) => {
+      console.log(result);
+      let test = likedSongs;
+      if (result.data.items.length === 0) {
+        setFinishedGetting(true);
+      } else {
+        setFinishedGetting(false);
+      }
+      for (let i = 0; i < result.data.items.length; i++) {
+        test[i + offset] = result.data.items[i];
+      }
+      setLikedSongs(test);
+    });
   };
 
   return (
