@@ -166,7 +166,8 @@ function Profile() {
                     :
                     <h2></h2> 
                     }
-                 
+                 {token ?
+                 <div>
                  {publicView ? 
                         <Button 
                         className='btns'
@@ -187,6 +188,11 @@ function Profile() {
                       >
                         Make Public
                       </Button>
+                    
+                    }
+                     </div>
+                    :
+                    <h2></h2> 
                     }
                 </div>
 
