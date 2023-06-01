@@ -22,7 +22,10 @@ export default function LikedSongs(props) {
           Authorization: `Bearer ${props.token}`,
         },
       })
-      .then((result) => setLikedSongs(result.data.items));
+      .then((result) => {
+        console.log(result.data.items);
+        setLikedSongs(result.data.items);
+      });
   };
 
   const getUsername = () => {
@@ -63,10 +66,9 @@ export default function LikedSongs(props) {
           alignItems: "center",
         }}
       >
-        <Box width={"42.5%"} marginLeft={"5%"}>
-          <Card variant="outlined">
+        <Box width={"85%"} marginLeft={"7.5%"}>
+          <Card variant="outlined" sx={{ border: 1, borderColor: "white" }}>
             <CardContent>
-              <Typography variant="h5">Liked Songs</Typography>
               {likedSongs &&
                 likedSongs.map((obj, index) => {
                   return (
@@ -74,6 +76,7 @@ export default function LikedSongs(props) {
                       song={obj.track.name}
                       artist={obj.track.artists[0].name}
                       rank={index + 1}
+                      imageLink={obj.track.album.images[2].url}
                     />
                   );
                 })}
@@ -97,6 +100,7 @@ function SongCard(props) {
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {props.artist}
         </Typography>
+        <img src={props.imageLink} alt={"Album cover for " + props.song} />
       </CardContent>
     </Card>
   );
