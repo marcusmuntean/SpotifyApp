@@ -10,7 +10,6 @@ router.get('/', async function(req, res, next) {
   userDocs.forEach((userDoc) => {
     allDocData.push(userDoc.data());
   })
-  console.log(allDocData)
   res.json({result: allDocData});
 });
 
