@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
@@ -6,6 +6,8 @@ import axios from "axios";
 export default function LikedSongs(props) {
   const [likedSongs, setLikedSongs] = useState(null);
   const [displayName, setDisplayName] = useState("");
+  const [finishedGetting, setFinishedGetting] = useState(null);
+  let offset = 0;
 
   useEffect(() => {
     getLikedSongs();
@@ -23,7 +25,6 @@ export default function LikedSongs(props) {
         },
       })
       .then((result) => {
-        console.log(result.data.items);
         setLikedSongs(result.data.items);
       });
   };
@@ -39,6 +40,30 @@ export default function LikedSongs(props) {
       })
       .then((result) => {
         setDisplayName(result.data.display_name);
+      });
+  };
+
+  const loadMoreSongs = () => {
+    offset += 50;
+    let url = "https://api.spotify.com/v1/me/tracks?limit=50&offset=" + offset;
+
+    axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      })
+      .then((result) => {
+        let test = likedSongs;
+        if (result.data.items.length === 0) {
+          setFinishedGetting(true);
+        } else {
+          setFinishedGetting(false);
+        }
+        for (let i = 0; i < result.data.items.length; i++) {
+          test[i + offset] = result.data.items[i];
+        }
+        setLikedSongs(test);
       });
   };
 
@@ -84,6 +109,15 @@ export default function LikedSongs(props) {
           </Card>
         </Box>
       </div>
+      {!finishedGetting && (
+        <Button
+          variant="contained"
+          style={{ marginBottom: "50px", backgroundColor: "#1DB954" }}
+          onClick={() => loadMoreSongs()}
+        >
+          Load More
+        </Button>
+      )}
     </>
   );
 }
