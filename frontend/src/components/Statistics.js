@@ -36,9 +36,6 @@ export default function Statistics(props) {
   };
 
   const getSongData = () => {
-    // let url = "http://localhost:9000/statistics/" + props.token;
-    // axios.get(url).then((result) => setTopSongData(result));
-
     let term;
 
     if (filterLength === "All Time") {
@@ -50,15 +47,9 @@ export default function Statistics(props) {
     }
 
     let url =
-      "https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=" + term;
+      "http://localhost:9000/statistics/songs/" + term + "/" + props.token;
 
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      })
-      .then((result) => setTopSongData(result.data.items));
+    axios.get(url).then((result) => setTopSongData(result.data.items));
   };
 
   const getArtistData = () => {
