@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, Route, Routes, useParams, useNavigate } from "react-router-dom";
 import { TextField, Button, Box } from "@mui/material";
+import UserContext from "./UserContext";
 
 function Discussion() {
 	const [boards, setBoards] = useState([]);
@@ -10,6 +11,8 @@ function Discussion() {
 	const [showInput, setShowInput] = useState(false);
 	const [searchText, setSearchText] = useState("");
 	const [username, setUsername] = useState("tester50013");
+
+	const { testVar, setTestVar } = useContext(UserContext);
 
 	/*
 	const getUsername = () => {
@@ -83,6 +86,7 @@ function Discussion() {
 	return (
 		<Box sx={{ padding: "16px" }}>
 			<h1 style={{ textAlign: "center" }}>Discussion Forum</h1>
+			<p>{testVar}</p>
 
 			<TextField
 				type="text"

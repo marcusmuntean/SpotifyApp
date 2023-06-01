@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, Route, Routes, useParams, useNavigate } from "react-router-dom";
 import {
 	Card,
@@ -9,6 +9,8 @@ import {
 	Box,
 } from "@mui/material";
 import axios from "axios";
+import UserContext from "./UserContext";
+
 function BoardPage() {
 	const { boardId } = useParams();
 	const [messages, setMessages] = useState([]);
@@ -20,6 +22,7 @@ function BoardPage() {
 	const [likedButtons, setLikedButtons] = useState([]);
 
 	const navigate = useNavigate();
+	const { testVar, setTestVar } = useContext(UserContext);
 
 	/*
 	const getUsername = () => {
@@ -99,6 +102,7 @@ function BoardPage() {
 				setComment("");
 				console.log("done");
 				setShowInput(false);
+				setTestVar(comment);
 			})
 
 			.catch((error) =>
@@ -123,6 +127,7 @@ function BoardPage() {
 	return (
 		<div>
 			<div style={{ textAlign: "left", marginLeft: "16px", marginTop: "16px" }}>
+				<p>{testVar}</p>
 				<Button
 					variant="contained"
 					onClick={() => navigate("/discussion")}
