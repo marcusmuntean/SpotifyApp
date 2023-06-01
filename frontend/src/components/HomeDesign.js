@@ -4,8 +4,7 @@ import { Button } from './Button';
 import './HomeDesign.css';
 import banner from '.././banner.png';
 import './Button.css';
-import { Link } from 'react-router-dom';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 
 

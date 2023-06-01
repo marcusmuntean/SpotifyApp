@@ -12,6 +12,8 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
+import { Button } from './Button';
+import './HomeDesign.css';
 
 function Profile() {
     const CLIENT_ID = "050284177ebc4d70b2889aff911336cb"
@@ -23,7 +25,8 @@ function Profile() {
     const [searchKey, setSearchKey] = useState("")
     const [artists, setArtists] = useState([])
     const [username, setUsername] = useState("");
-    const [displayName, setDisplayName] = useState("");        
+    const [displayName, setDisplayName] = useState("");
+    const [publicView, setPublicView] =  useState([]);    
 
   
 
@@ -75,7 +78,64 @@ function Profile() {
         ))
     }
 
-    const userCollectionRef = collection(db, "Users");
+
+
+
+    async function addNewUser(newName) {
+        const userCollectionRef = collection(db, "Users");
+        const userQuery = query(
+        userCollectionRef,
+        where("name", "==", newName)
+        );
+
+        const userSnapshot = await getDocs(userQuery);
+        if (userSnapshot.docs.length <= 0) {
+            await addDoc(collection(db, "Users"), {
+                name: newName,
+                public: true,
+              });
+          } else {
+            console.log("already added");
+          }
+        
+      }
+
+     
+
+      const [userList, setUserList] = useState([]);
+
+      useEffect(() => {
+        const getUserList = async () => {
+          const UserColRef = collection(db, "Users");
+          try {
+            const data = await getDocs(UserColRef);
+            const filteredData = data.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+            }));
+            console.log(filteredData);
+            setUserList(filteredData);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        getUserList();
+      }, [updateUser]);
+
+      async function updateUser(editUser, newStatus, userName) {
+        try {
+            let editS = editUser.filter((user) => user.name === userName);
+            setPublicView(newStatus);
+        
+            await updateDoc(doc(db, "Users", editS[0].id), {
+              public: newStatus
+            });
+            
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
 
 
     const getUsername = () => {
@@ -90,24 +150,64 @@ function Profile() {
           .then((result) => {
             setUsername(result.id);
             setDisplayName(result.data.display_name);
-            console.log(displayName);
+            addNewUser(displayName);
           });
       };
 
-   
+     
 
     return (
         <div className="App">
             <header className="App-header">
-                 {token ? 
-                        <h1 {...getUsername ()}>{"Welcome " + displayName}</h1>
+                
+                <div>
+                {token ? 
+                        <h1 {...getUsername ()}>{"Welcome, " + displayName +"!"}</h1>
                     :
-                    <h2>Please Login</h2> 
+                    <h2></h2> 
                     }
+                 
+                 {publicView ? 
+                        <Button 
+                        className='btns'
+                        onClick={() => {updateUser(userList,false,displayName)}}          
+                        buttonStyle='btn--primary'
+                        buttonSize='btn--medium'
+                        
+                      >
+                        Make Private
+                      </Button>
+                    :
+                    <Button 
+                        className='btns'
+                        onClick={() => {updateUser(userList,true,displayName)}}          
+                        buttonStyle='btn--primary'
+                        buttonSize='btn--medium'
+                        
+                      >
+                        Make Public
+                      </Button>
+                    }
+                </div>
+
+            
+                <div>
+
+
                 {!token ?
                     <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
                         to Spotify</a>
-                    : <button onClick={logout}>Logout</button>}
+                    : <Button 
+                    className='btns'
+                    onClick={logout}          
+                    buttonStyle='btn--primary'
+                    buttonSize='btn--medium'
+                    
+                  >
+                    Log Out
+                  </Button>
+                }
+                </div>
 
                 
                 
@@ -135,3 +235,13 @@ export default Profile;
 
     
 // }
+
+{/* <Button 
+                        className='btns'
+                        onClick={logout}          
+                        buttonStyle='btn--primary'
+                        buttonSize='btn--medium'
+                        
+                      >
+                        Make Private
+                      </Button>  */}
