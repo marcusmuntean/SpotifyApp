@@ -16,16 +16,14 @@ function DiscussionHome() {
 	const [testVar, setTestVar] = useState("Big W if this works");
 
 	return (
-		<UserContext.Provider value={{ testVar, setTestVar }}>
-			<Router>
-				<div>
-					<Routes>
-						<Route path="/discussion" element={<Discussion />} />
-						<Route path="/board/:boardId" element={<BoardPage />} />
-					</Routes>
-				</div>
-			</Router>
-		</UserContext.Provider>
+		<Router>
+			<div>
+				<Routes>
+					<Route path="/discussion" element={<Discussion />} />
+					<Route path="/board/:boardId" element={<BoardPage />} />
+				</Routes>
+			</div>
+		</Router>
 	);
 }
 

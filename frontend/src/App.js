@@ -4,6 +4,8 @@ import "./App.css";
 import Home from "./components/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "./components/Profile";
+import Discussion from "./components/Discussion";
+import BoardPage from "./components/BoardPage";
 function App() {
 	return (
 		<>
@@ -12,6 +14,8 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/profile" element={<Profile />} />
+					<Route path="/discussion" element={<Discussion />} />
+					<Route path="/board/:boardId" element={<BoardPage />} />
 				</Routes>
 				{/* <Switch>
           <Route path='/' exact component={Home} />

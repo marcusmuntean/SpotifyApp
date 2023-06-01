@@ -23,7 +23,6 @@ function BoardPage() {
 	const [likedButtons, setLikedButtons] = useState([]);
 
 	const navigate = useNavigate();
-	const { testVar, setTestVar } = useContext(UserContext);
 
 	/*
 	const getUsername = () => {
@@ -103,7 +102,6 @@ function BoardPage() {
 				setComment("");
 				console.log("done");
 				setShowInput(false);
-				setTestVar(comment);
 			})
 
 			.catch((error) =>

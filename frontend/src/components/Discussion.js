@@ -19,8 +19,6 @@ function Discussion() {
 	const [searchText, setSearchText] = useState("");
 	const [username, setUsername] = useState("tester50013");
 
-	const { testVar, setTestVar } = useContext(UserContext);
-
 	const theme = createTheme({
 		typography: {
 			fontFamily: "Poppins, sans-serif",
