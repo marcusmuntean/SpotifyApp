@@ -1,17 +1,6 @@
 const express = require("express");
 const router = express.Router();
-//const db = require("./firebase");
 const axios = require("axios");
-
-// const {
-//   getDocs,
-//   collection,
-//   getDoc,
-//   doc,
-//   addDoc,
-//   deleteDoc,
-//   updateDoc,
-// } = require("firebase/firestore");
 
 // router.get("/statistics/:token", async (req, res, next) => {
 //   axios
@@ -42,6 +31,21 @@ router.get("/likes/:offset/:token", async (req, res, next) => {
   const token = req.params.token;
   const offset = req.params.offset;
   let url = "https://api.spotify.com/v1/me/tracks?limit=50&offset=" + offset;
+
+  axios
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((result) => {
+      res.json(result.data);
+    });
+});
+
+router.get("/name/:token", async (req, res, next) => {
+  let url = "https://api.spotify.com/v1/me";
+  const token = req.params.token;
 
   axios
     .get(url, {

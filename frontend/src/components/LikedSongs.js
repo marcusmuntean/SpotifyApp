@@ -27,17 +27,11 @@ export default function LikedSongs(props) {
   };
 
   const getUsername = () => {
-    let url = "https://api.spotify.com/v1/me";
+    let url = "http://localhost:9000/statistics/name/" + props.token;
 
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Bearer ${props.token}`,
-        },
-      })
-      .then((result) => {
-        setDisplayName(result.data.display_name);
-      });
+    axios.get(url).then((result) => {
+      setDisplayName(result.data.display_name);
+    });
   };
 
   const loadMoreSongs = () => {
