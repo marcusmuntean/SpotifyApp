@@ -10,6 +10,7 @@ var profilesRouter = require("./routes/profiles");
 var statisticsRouter = require("./routes/statistics");
 var inboxesRouter = require("./routes/inboxes");
 var discussionsRouter = require("./routes/discussions");
+var discoveryRouter = require("./routes/discovery");
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use("/profiles", profilesRouter);
 app.use("/statistics", statisticsRouter);
 app.use("/discussions", discussionsRouter);
 app.use("/inboxes", inboxesRouter);
+app.use("/discovery", discoveryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
