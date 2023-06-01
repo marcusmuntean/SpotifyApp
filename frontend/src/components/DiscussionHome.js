@@ -8,7 +8,7 @@ function DiscussionHome() {
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Discussion />} />
+          <Route path="/discussion" element={<Discussion />} />
           <Route path="/board/:boardId" element={<BoardPage />} />
         </Routes>
       </div>
