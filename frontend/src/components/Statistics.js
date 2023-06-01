@@ -16,7 +16,6 @@ export default function Statistics(props) {
   const [filterLength, setFilterLength] = useState("All Time");
   const [topSongData, setTopSongData] = useState(null);
   const [topArtistData, setTopArtistData] = useState(null);
-  const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
@@ -93,7 +92,6 @@ export default function Statistics(props) {
         },
       })
       .then((result) => {
-        setUsername(result.id);
         setDisplayName(result.data.display_name);
       });
   };
