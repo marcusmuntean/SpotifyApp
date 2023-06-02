@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 import Discussion from "./components/Discussion";
 import BoardPage from "./components/BoardPage";
+import Discover from "./components/Discovery/Discovery.js";
+import Inbox from "./components/Inbox/Inbox.js";
 function App() {
 	return (
 		<>
@@ -16,6 +18,8 @@ function App() {
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/discussion" element={<Discussion />} />
 					<Route path="/board/:boardId" element={<BoardPage />} />
+					<Route path="/discovery" element={<Discover />} />
+					<Route path="/inbox" element={<Inbox />} />
 				</Routes>
 				{/* <Switch>
           <Route path='/' exact component={Home} />

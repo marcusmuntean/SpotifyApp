@@ -38,7 +38,7 @@ function Navbar() {
         <div className='navbar-container'>
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
             Expressify
-            <img style={{marginLeft: 150,width: 40, height: 40 }} src={logo} /> 
+            <img style={{marginLeft: 170,width: 40, height: 40 }} src={logo} /> 
           </Link>
           <div className='menu-icon' onClick={handleClick}>
             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
