@@ -14,7 +14,7 @@ function Discovery() {
       for (let i = 0; i < res.data.result.length; i++) {
         if (res.data.result[i].public) {
           const profile = document.createElement("div");
-          profile.className = "profile";
+          profile.className = "profile-discovery";
           const nameHeader = document.createElement("h2");
           nameHeader.innerHTML = res.data.result[i].name;
           profile.appendChild(nameHeader)
@@ -26,7 +26,7 @@ function Discovery() {
 
   return (
     <>
-      <header>
+      <header id="discovery-header">
         <div>
           <h1 id="title">Discovery</h1>
         </div>
