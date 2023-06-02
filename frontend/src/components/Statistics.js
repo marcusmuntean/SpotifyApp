@@ -11,12 +11,16 @@ import {
 import Divider from "@mui/material/Divider";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
+import UserContext from "./UserContext";
+import { useContext, createContext } from "react";
 
 export default function Statistics(props) {
   const [filterLength, setFilterLength] = useState("All Time");
   const [topSongData, setTopSongData] = useState(null);
   const [topArtistData, setTopArtistData] = useState(null);
   const [displayName, setDisplayName] = useState("");
+
+  const { globalUser, setGlobalUser } = useContext(UserContext);
 
   useEffect(() => {
     getSongData();
@@ -35,6 +39,23 @@ export default function Statistics(props) {
     setFilterLength(event.target.value);
   };
 
+  // const getSongData = () => {
+  //   let term;
+
+  //   if (filterLength === "All Time") {
+  //     term = "long_term";
+  //   } else if (filterLength === "Last 6 Months") {
+  //     term = "medium_term";
+  //   } else if (filterLength === "Last Month") {
+  //     term = "short_term";
+  //   }
+
+  //   let url =
+  //     "http://localhost:9000/statistics/songs/" + term + "/" + globalUser;
+
+  //   axios.get(url).then((result) => setTopSongData(result.data.items));
+  // };
+
   const getSongData = () => {
     let term;
 
@@ -46,11 +67,37 @@ export default function Statistics(props) {
       term = "short_term";
     }
 
-    let url =
-      "http://localhost:9000/statistics/songs/" + term + "/" + props.token;
 
-    axios.get(url).then((result) => setTopSongData(result.data.items));
+    let url =
+      "https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=" + term + "/" + globalUser;
+
+      axios
+			.get(url, {
+				headers: {
+					Authorization: `Bearer ${globalUser}`,
+				},
+			})
+			.then((result) => {
+				setTopSongData(result.data.items);
+			});
   };
+
+  // const getArtistData = () => {
+  //   let term;
+
+  //   if (filterLength === "All Time") {
+  //     term = "long_term";
+  //   } else if (filterLength === "Last 6 Months") {
+  //     term = "medium_term";
+  //   } else if (filterLength === "Last Month") {
+  //     term = "short_term";
+  //   }
+
+  //   let url =
+  //     "http://localhost:9000/statistics/artists/" + term + "/" + globalUser;
+
+  //   axios.get(url).then((result) => setTopArtistData(result.data.items));
+  // };
 
   const getArtistData = () => {
     let term;
@@ -62,20 +109,40 @@ export default function Statistics(props) {
     } else if (filterLength === "Last Month") {
       term = "short_term";
     }
+    let url = "https://api.spotify.com/v1/me/top/artists?limit=50&time_range=";
 
-    let url =
-      "http://localhost:9000/statistics/artists/" + term + "/" + props.token;
-
-    axios.get(url).then((result) => setTopArtistData(result.data.items));
+    axios
+			.get(url, {
+				headers: {
+					Authorization: `Bearer ${globalUser}`,
+				},
+			})
+			.then((result) => {
+				setTopArtistData(result.data.items);
+			});
   };
 
   const getUsername = () => {
-    let url = "http://localhost:9000/statistics/name/" + props.token;
+		let url = "https://api.spotify.com/v1/me";
 
-    axios.get(url).then((result) => {
-      setDisplayName(result.data.display_name);
-    });
-  };
+		axios
+			.get(url, {
+				headers: {
+					Authorization: `Bearer ${globalUser}`,
+				},
+			})
+			.then((result) => {
+				setDisplayName(result.data.display_name);
+			});
+	};
+
+  // const getUsername = () => {
+  //   let url = "http://localhost:9000/statistics/name/" + globalUser;
+
+  //   axios.get(url).then((result) => {
+  //     setDisplayName(result.data.display_name);
+  //   });
+  // };
 
   return (
     <>

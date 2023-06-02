@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import axios from "axios";
 import { db } from "./firebase.js";
 import {
@@ -13,10 +13,11 @@ import {
 } from "firebase/firestore";
 import { Button } from "./Button";
 import "./HomeDesign.css";
+import UserContext from "./UserContext.js";
 
 function Profile() {
 	const CLIENT_ID = "050284177ebc4d70b2889aff911336cb";
-	const REDIRECT_URI = "http://localhost:3000/profile";
+	const REDIRECT_URI = "http://localhost:3001/profile";
 	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 	const RESPONSE_TYPE = "token";
 
@@ -27,9 +28,13 @@ function Profile() {
 	const [displayName, setDisplayName] = useState("");
 	const [publicView, setPublicView] = useState([]);
 
+    const { globalUser, setGlobalUser } = useContext(UserContext);
+
+
 	useEffect(() => {
 		const hash = window.location.hash;
 		let token = window.localStorage.getItem("token");
+        let globalUser = window.localStorage.getItem("token");
 
 		// getToken()
 
@@ -45,27 +50,29 @@ function Profile() {
 		}
 
 		setToken(token);
+        setGlobalUser(token);
 	}, []);
 
 	const logout = () => {
 		setToken("");
+        setGlobalUser("");
 		window.localStorage.removeItem("token");
 	};
 
-	const artistInfo = async (e) => {
-		e.preventDefault();
-		const { data } = await axios.get("https://api.spotify.com/v1/search", {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-			params: {
-				q: searchKey,
-				type: "artist",
-			},
-		});
+	// const artistInfo = async (e) => {
+	// 	e.preventDefault();
+	// 	const { data } = await axios.get("https://api.spotify.com/v1/search", {
+	// 		headers: {
+	// 			Authorization: `Bearer ${token}`,
+	// 		},
+	// 		params: {
+	// 			q: searchKey,
+	// 			type: "artist",
+	// 		},
+	// 	});
 
-		setArtists(data.artists.items);
-	};
+	// 	setArtists(data.artists.items);
+	// };
 
 	const renderArtists = () => {
 		return artists.map((artist) => (
@@ -127,6 +134,8 @@ function Profile() {
 			console.error(err);
 		}
 	}
+
+  
 
 	const getUsername = () => {
 		let url = "https://api.spotify.com/v1/me";
