@@ -6,9 +6,14 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 import Discussion from "./components/Discussion";
 import BoardPage from "./components/BoardPage";
+import Statistics from "./components/Statistics";
+import UserContext from "./components/UserContext";
+import { useState, useContext, createContext } from "react";
 function App() {
+  const [globalUser, setGlobalUser] = useState("Initial placeholder name");
 	return (
 		<>
+    <UserContext.Provider value={{ globalUser, setGlobalUser }}>
 			<Router>
 				<Navbar />
 				<Routes>
@@ -16,6 +21,7 @@ function App() {
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/discussion" element={<Discussion />} />
 					<Route path="/board/:boardId" element={<BoardPage />} />
+          <Route path="/statistics" element={<Statistics />} />
 				</Routes>
 				{/* <Switch>
           <Route path='/' exact component={Home} />
@@ -24,6 +30,7 @@ function App() {
           <Route path='/sign-up' component={SignUp} />
         </Switch> */}
 			</Router>
+      </UserContext.Provider>
 		</>
 	);
 }

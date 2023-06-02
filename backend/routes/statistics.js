@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-
+var cors = require("cors"); 
+router.use(cors());
 router.get("/songs/:term/:token", async (req, res, next) => {
 	const token = req.params.token;
 	const term = req.params.term;
@@ -84,4 +85,3 @@ router.get("/name/:token", async (req, res, next) => {
 
 module.exports = router;
 
-module.exports = router;
