@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
+import "./Statistics.css";
 
 export default function LikedSongs(props) {
   const [likedSongs, setLikedSongs] = useState(null);
@@ -55,17 +56,16 @@ export default function LikedSongs(props) {
 
   return (
     <>
-      <Typography
-        variant="h3"
-        sx={{ fontWeight: "bold", marginBottom: "0.7%", marginTop: "0.5%" }}
-      >
-        Liked Songs
-      </Typography>
+      <header>
+        <div>
+          <h1 id="title">Liked Songs</h1>
+        </div>
+      </header>
       <Typography
         fontSize={"26px"}
-        color="#827b7a"
-        marginTop={"-15px"}
-        marginBottom={"15px"}
+        color="#c7c1c1"
+        marginTop={"-50px"}
+        marginBottom={"35px"}
       >
         {displayName}
       </Typography>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 //import LikedSongs from "./components/LikedSongs";
-import Statistics from "./components/Statistics";
+//import Statistics from "./components/Statistics";
+import LikedSongs from "./components/LikedSongs";
 
 function App() {
   const CLIENT_ID = "24fee7e6d2f14ccaaa216f3f6277628a";
@@ -49,7 +50,7 @@ function App() {
         <button onClick={logout}>Logout</button>
       )}
 
-      {token ? <Statistics token={token} /> : <h2>Please login</h2>}
+      {token ? <LikedSongs token={token} /> : <h2>Please login</h2>}
     </div>
   );
 }
