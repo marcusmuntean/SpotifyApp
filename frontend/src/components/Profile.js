@@ -13,10 +13,11 @@ import {
 } from "firebase/firestore";
 import { Button } from "./Button";
 import "./HomeDesign.css";
+import {useNavigate} from 'react-router-dom';
 
 function Profile() {
 	const CLIENT_ID = "050284177ebc4d70b2889aff911336cb";
-	const REDIRECT_URI = "http://localhost:3000/profile";
+	const REDIRECT_URI = "http://localhost:3001/profile";
 	const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 	const RESPONSE_TYPE = "token";
 
@@ -26,6 +27,13 @@ function Profile() {
 	const [username, setUsername] = useState("");
 	const [displayName, setDisplayName] = useState("");
 	const [publicView, setPublicView] = useState([]);
+
+	const navigate = useNavigate();
+   
+	const navigateInbox= () => {
+		// 👇️ navigate to /
+		navigate('/inbox');
+	};
 
 	useEffect(() => {
 		const hash = window.location.hash;
@@ -179,6 +187,21 @@ function Profile() {
 								</Button>
 							)}
 						</div>
+					) : (
+						<h2></h2>
+					)}
+				</div>
+
+				<div>
+					{token ? (
+						<Button
+						className="btns"
+						onClick={navigateInbox}
+						buttonStyle="btn--primary"
+						buttonSize="btn--medium"
+					>
+						Inbox
+					</Button>
 					) : (
 						<h2></h2>
 					)}
