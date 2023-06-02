@@ -39,7 +39,8 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Log-in Sample</h1>
+      {token ? <LikedSongs token={token} /> : <h2>Please login</h2>}
+      <p></p>
       {!token ? (
         <a
           href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=user-top-read%20user-library-read`}
@@ -47,10 +48,15 @@ function App() {
           Login to Spotify
         </a>
       ) : (
-        <button onClick={logout}>Logout</button>
+        <>
+          <button
+            style={{ marginBottom: "30px", marginTop: "-30px" }}
+            onClick={logout}
+          >
+            Logout
+          </button>
+        </>
       )}
-
-      {token ? <LikedSongs token={token} /> : <h2>Please login</h2>}
     </div>
   );
 }
