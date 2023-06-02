@@ -12,7 +12,6 @@ var inboxesRouter = require("./routes/inboxes");
 var discussionsRouter = require("./routes/discussions");
 var discoveryRouter = require("./routes/discovery");
 
-var discoveryRouter = require("./routes/discovery");
 
 
 var app = express();
